@@ -1,4 +1,4 @@
-# 🌐 Visualizador de IP Pública
+# Visualizador de IP Pública
 
 **Desarrollado por Marco Alexander de León Hernández**
 
