@@ -1,105 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obtener IP Pública</title>
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6159/6159318.png">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .container {
-            text-align: center;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-        #ip {
-            font-size: 24px;
-            color: #333;
-            padding: 10px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
-            width: 250px;
-            margin: 0 auto;
-        }
-        .button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 40px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        footer {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #555;
-            font-size: 12px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tu IP Pública — Panel</title>
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6159/6159318.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="color-scheme" content="light dark">
 </head>
 <body>
-    <div class="container">
-        <h1>Tu IP Pública</h1>
-        <div id="ip">Obteniendo IP...</div>
-        <button id="refresh" class="button" onclick="obtenerIP()">Actualizar IP</button>
-        <button id="copy" class="button" onclick="copiarIP()">Copiar IP</button>
+  <header class="app-header">
+    <div class="brand">
+      <div class="dot"></div>
+      <h1>Panel de IP Pública</h1>
     </div>
+    <button id="themeToggle" class="btn ghost" aria-label="Cambiar tema">
+      🌙/☀️
+    </button>
+  </header>
 
-    <footer>
-        by: Marco Alexander de León Hernández
-    </footer>
+  <main class="container">
+    <section class="explanation">
+      <h2>¿Qué es la IP pública?</h2>
+      <p>
+        Es el identificador que tu proveedor de internet asigna a tu conexión hacia afuera. 
+        Los servicios en la red la usan para saber desde dónde te conectas, se diferencia de la IP privada que solo se usa dentro de tu red local. 
+        Cambia según tu proveedor, tu plan o si reinicias el router, en algunos casos es fija.
+      </p>
+    </section>
 
-    <script>
-        function obtenerIP() {
-            fetch('https://api.ipify.org')
-            .then(response => response.text())
-            .then(ip => {
-                document.getElementById('ip').textContent = ip;
-            })
-            .catch(error => {
-                console.error('Error al obtener la IP:', error);
-                document.getElementById('ip').textContent = "Error al obtener la IP";
-            });
-        }
+    <section class="card">
+      <header class="card-head">
+        <h3>Lectura actual</h3>
+        <span id="lastUpdate" class="muted">—</span>
+      </header>
 
-        function copiarIP() {
-            var ipElement = document.getElementById('ip');
-            var ipText = ipElement.textContent;
-            navigator.clipboard.writeText(ipText)
-            .then(() => {
-                alert('IP copiada al portapapeles: ' + ipText);
-            })
-            .catch(err => {
-                console.error('Error al copiar la IP:', err);
-            });
-        }
+      <div class="ip-grid">
+        <div class="ip-block">
+          <div class="ip-label">IPv4</div>
+          <div id="ipV4" class="ip-value">—</div>
+        </div>
+        <div class="ip-block">
+          <div class="ip-label">IPv6</div>
+          <div id="ipV6" class="ip-value">—</div>
+        </div>
+      </div>
 
-        obtenerIP();
-        setInterval(obtenerIP, 5000); // Actualizar cada 5 segundos
-    </script>
+      <div class="ip-info">
+  <p>
+    <strong>IPv4</strong> es la dirección más común que identifica tu conexión en internet usando 32 bits.  
+    <strong>IPv6</strong> es su versión más moderna, usa 128 bits y permite millones de direcciones más.  
+    Ambas son <strong>públicas</strong>, es decir, visibles para los servicios externos y necesarias para conectar tu red con Internet.
+  </p>
+  <p class="muted small">
+    Si solo ves una dirección IPv4, tu proveedor puede no tener soporte completo para IPv6.  
+    No es un error, simplemente indica el tipo de conexión que tienes.
+  </p>
+</div>
+
+
+      <div class="actions">
+        <button id="refreshBtn" class="btn primary">Actualizar</button>
+        <button id="copyV4" class="btn">Copiar IPv4</button>
+        <button id="copyV6" class="btn">Copiar IPv6</button>
+      </div>
+
+      <div id="status" class="status muted" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="tips">
+      <h4>Notas útiles</h4>
+      <ul>
+        <li>Si ves “—” en IPv6, tu red quizá no lo expone, no pasa nada.</li>
+        <li>Algunas VPN o proxies cambian tu IP pública de forma dinámica.</li>
+        <li>El botón de tema guarda tu preferencia, si no eliges, se adapta al sistema.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="credit">
+        <span>© 2025 — Desarrollado por <strong>Marco Alexander de León Hernández</strong></span>
+      </div>
+
+      <div class="links">
+        <a href="https://github.com/marcodeleon20" target="_blank" rel="noopener noreferrer">Repositorio</a>
+        <a href="https://www.buymeacoffee.com/marcodeleon" target="_blank" rel="noopener noreferrer">Donaciones ☕</a>
+        <a href="mailto:marcodeleonh@gmail.com">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="app.js"></script>
 </body>
 </html>
-

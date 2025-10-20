@@ -1,0 +1,238 @@
+/* ===== Variables de tema ===== */
+:root {
+  --bg: #0e0f12;
+  --panel: #151821;
+  --panel-alt: #1b2030;
+  --text: #e9eef4;
+  --muted: #a9b2c3;
+  --primary: #4c8dff;
+  --primary-contrast: #ffffff;
+  --border: #2a3142;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+:root.light {
+  --bg: #f7f9fc;
+  --panel: #ffffff;
+  --panel-alt: #f2f5fb;
+  --text: #19202c;
+  --muted: #5a6b85;
+  --primary: #2257e6;
+  --primary-contrast: #ffffff;
+  --border: #e4e8f0;
+  --shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+/* Respeta preferencia del sistema si el usuario no eligió manualmente */
+@media (prefers-color-scheme: light) {
+  :root:not(.dark):not(.light) {
+    --bg: #f7f9fc;
+    --panel: #ffffff;
+    --panel-alt: #f2f5fb;
+    --text: #19202c;
+    --muted: #5a6b85;
+    --primary: #2257e6;
+    --primary-contrast: #ffffff;
+    --border: #e4e8f0;
+    --shadow: 0 10px 30px rgba(0,0,0,.08);
+  }
+}
+
+/* ===== Reset breve ===== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1200px 800px at 20% 0%, rgba(76,141,255,.18), transparent 40%), 
+              radial-gradient(1200px 800px at 100% 100%, rgba(106,17,203,.14), transparent 40%),
+              var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+}
+
+/* ===== Layout ===== */
+.app-header, .app-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px;
+  padding: 16px clamp(16px, 4vw, 40px);
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-alt), transparent);
+}
+.app-footer {
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  justify-content: center;
+  background: none;
+  margin-top: 40px;
+  color: var(--muted);
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand .dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #6a11cb);
+  box-shadow: 0 0 12px rgba(76,141,255,.7);
+}
+.brand h1 { font-size: clamp(18px, 2vw, 22px); margin: 0; }
+
+.container {
+  width: min(1024px, 92%);
+  margin: 28px auto;
+  display: grid;
+  gap: 24px;
+}
+
+.explanation, .card, .tips {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: clamp(16px, 3vw, 24px);
+  box-shadow: var(--shadow);
+}
+
+.explanation h2 { margin: 0 0 8px }
+.explanation p { margin: 0; color: var(--text); }
+
+.card-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  margin-bottom: 16px;
+}
+.card-head h3 { margin: 0; font-size: 18px; }
+.muted { color: var(--muted); }
+
+.ip-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 560px) {
+  .ip-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.ip-block {
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.ip-label {
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.ip-value {
+  font-weight: 700;
+  font-size: clamp(18px, 3.3vw, 22px);
+  word-break: break-word;
+}
+
+.actions {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px;
+}
+
+/* ===== Botones ===== */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--panel-alt);
+  color: var(--text);
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: var(--primary); }
+.btn:active { transform: translateY(0); }
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--primary), #6a11cb);
+  color: var(--primary-contrast);
+  border-color: transparent;
+}
+.btn.ghost {
+  background: transparent;
+}
+
+/* ===== Tips ===== */
+.tips h4 { margin: 0 0 10px; font-size: 16px; }
+.tips ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.tips li { margin-bottom: 6px; }
+
+/* ===== Estado ===== */
+.status { margin-top: 10px; font-size: 13px; }
+
+/* ===== Accesibilidad ===== */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ===== Footer extendido ===== */
+.app-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 60px;
+  padding: 24px clamp(16px, 4vw, 40px);
+  background: linear-gradient(180deg, var(--panel-alt), var(--bg));
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.15);
+  font-size: 14px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-content .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-content a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.25s ease;
+  font-weight: 500;
+}
+
+.footer-content a:hover {
+  color: #6a11cb;
+}
+
+@media (min-width: 640px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* ===== Explicación dentro del card ===== */
+.ip-info {
+  margin-top: 18px;
+  background: var(--panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--text);
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.1);
+}
+
+.ip-info p {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+.ip-info strong {
+  color: var(--primary);
+}
+
+.small {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
